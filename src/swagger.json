@@ -1,0 +1,122 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Atlas",
+      "description": "Essa é uma documentação sobre a Atlas API",
+      "version": "1.0.0",
+      "contact": {
+        "email": "weisbergbsf@gmail.com"
+      }
+    },
+    "tags": [
+      {
+        "name": "Users",
+        "description": "Gerenciamento de usuários"
+      }
+    ],
+    "paths": {
+      "/users": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Cria um novo usuário",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": ["name", "email"],
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": "string"
+                  },
+                  "example": {
+                    "name": "Home",
+                    "email": "email@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Operação realizada com sucesso."
+            },
+            "400": {
+              "description": "Email já está sendo utilizado"
+            }
+          }
+        },
+        "get": {
+          "tags": ["Users"],
+          "summary": "Retorna todos os usuários.",
+          "description": "Somente usuário admin pode acessar.",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "user_id",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Operação realizada com sucesso."
+            },
+            "400": {
+              "description": "Usuário sem permissão ou usuário não encontado"
+            }
+          }
+        }
+      },
+      "/users/{user_id}": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Retorna um usuário.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "user_id",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Operação realizada com sucesso."
+            },
+            "404": {
+              "description": "Usuário não encontrado."
+            }
+          }
+        }
+      },
+      "/users/{user_id}/admin": {
+        "patch": {
+          "tags": ["Users"],
+          "summary": "Torna admin um usuário",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "user_id",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Operação realizada com sucesso."
+            },
+            "404": {
+              "description": "Usuário não encontrado."
+            }
+          }
+        }
+      }
+    }
+  }
